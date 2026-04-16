@@ -35,7 +35,7 @@ var speechLines = {
     "It is time go",
     "Rocky hate mark",
     "Fist my bump",
-    "How do you know when the hug is done?",
+    "How do you know when the hug is done, question?",
     "Usually you not stupid. Why stupid, question?",
   ],
   science: [
@@ -82,6 +82,7 @@ function clickedTreatButton() {
   // Treat: +happiness, +weight
   Friend_info.happiness += 8;
   Friend_info.weight += 3;
+  Friend_info.trust += 4;
   playChord(["C4", "E4", "G4"]); // happy major chord
   animateRocky("bounce");
   showSpeech(randomLine(speechLines.treat));
@@ -92,6 +93,7 @@ function clickedPlayButton() {
   // Play: +happiness, -weight
   Friend_info.happiness += 10;
   Friend_info.weight -= 2;
+  Friend_info.trust += 2;
   playChord(["E4", "G4", "B4"]); // bright minor-7 feel
   animateRocky("wiggle");
   showSpeech(randomLine(speechLines.play));
@@ -101,7 +103,8 @@ function clickedPlayButton() {
 function clickedchatButton() {
   // chat: -happiness, -weight
   Friend_info.happiness -= 5;
-  Friend_info.weight -= 4;
+  Friend_info.weight -= 1;
+  Friend_info.trust += 6;
   playChord(["A3", "C4", "E4"]); // determined minor chord
   animateRocky("shake");
   showSpeech(randomLine(speechLines.chat));
@@ -114,7 +117,7 @@ function clickedchatButton() {
 function clickedScienceButton() {
   Friend_info.happiness += 12;
   Friend_info.trust += 6;
-  Friend_info.weight -= 1;
+  Friend_info.weight -= 2;
   playChord(["D4", "F#4", "A4", "C5"]); // four-note discovery chord
   animateRocky("spin");
   showSpeech(randomLine(speechLines.science));
@@ -238,25 +241,15 @@ function animateRocky(kind) {
   $rocky[0].offsetWidth;
   $rocky.addClass("anim-" + kind);
 
-  //
   // UNIQUE jQUERY METHOD #1: .each()
   // https://api.jquery.com/each/
   //
   // .each(function(index, element)) iterates over every element in
-  // a jQuery collection and runs the callback once per element. The
-  // callback receives the element's zero-based index and the raw DOM
-  // element — inside the callback, `this` also refers to the element.
-  //
-  // We use it here to stagger the three floating music-note elements
+  // a jQuery collection and runs the callback once per element.
+  // Used to stagger the three floating music-note elements
   // (.note-1, .note-2, .note-3). A plain .addClass('note-fly') on all
-  // of them would start every note's animation at the exact same
-  // moment. Instead, for each note we:
-  //   1. Remove the old animation class (reset the animation state)
-  //   2. Force a reflow so the browser registers the reset
-  //   3. Set a per-note animation-delay using the index, so note 0
-  //      starts immediately, note 1 is slightly delayed, note 2 more
-  //   4. Re-add the class so the staggered animation plays
-  // This produces a nicer cascading "chord" effect of musical notes
+  // of them would start every note's animation at the exact same moment.
+  // Instead this produces a nicer cascading "chord" effect of musical notes
   // floating up from Rocky — matching how he communicates in the book.
   $(".note").each(function (index, element) {
     var $note = $(element);
@@ -272,9 +265,7 @@ function startIdleWobble() {
   $(".rocky").addClass("idle");
 }
 
-// =============================================================
 // SOUND (Tone.js) + SPEECH (Web Speech API)
-// =============================================================
 // Rocky communicates through musical notes in the book, so each
 // action plays a short chord. On top of that we use the browser's
 // built-in speechSynthesis API to have Rocky actually say his line
@@ -364,19 +355,8 @@ function pickRockyVoice() {
   // Priority 1: exact known male voices
   var preferred = [
     "Daniel", // macOS - British male
-    "Fred", // macOS - deeper male, classic
-    "Alex", // macOS - male
-    "Aaron", // macOS - male
-    "Tom", // macOS - male
-    "Oliver", // macOS - British male
-    "Lee", // macOS - Australian male
-    "Rishi", // macOS - Indian English male
-    "Google UK English Male",
-    "Google US English Male",
-    "Microsoft David",
-    "Microsoft Mark",
-    "Microsoft George",
   ];
+
   for (var i = 0; i < preferred.length; i++) {
     for (var j = 0; j < voices.length; j++) {
       if (voices[j].name.indexOf(preferred[i]) !== -1) return voices[j];
