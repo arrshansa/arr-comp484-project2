@@ -1,0 +1,275 @@
+/* =============================================================
+   Rocky the Eridian - Giga Pet
+   Stylesheet
+   ============================================================= */
+
+   * { box-sizing: border-box; }
+
+   /* =============================================================
+      COLOR PALETTE (Project Hail Mary film-inspired)
+      ---------------------------------------------------------------
+      Downpour blue   #0a1929 / #1a2b42   - base/deep space
+      Stellar gray    #c5ccd4 / #8a96a5   - body text
+      Crimson nebula  #c8374d / #8a1f30   - primary accent
+      Toxic green     #7fa85a / #3d5c28   - alien/Eridian accent
+      Warm bone       #e8dfd0             - speech bubble
+      ============================================================= */
+   
+   body {
+     /* Albertina is a paid Monotype font — if the user has it installed locally
+        the browser will use it first, otherwise it falls back to PT Serif
+        (a free Google Font that's the closest open-source match to Albertina). */
+     font-family: 'Albertina', 'PT Serif', Georgia, 'Times New Roman', serif;
+     margin: 0;
+     padding: 25px;
+     background: #0a1929 url('images/erid-high-quality.jpg') center center / cover no-repeat fixed;
+     color: #c5ccd4;
+     min-height: 100vh;
+     position: relative;
+   }
+   
+   /* Mood-driven overlay that tints the whole screen based on Rocky's mood.
+      Sits between the wallpaper and the content. */
+   body::before {
+     content: '';
+     position: fixed;
+     inset: 0;
+     pointer-events: none;
+     z-index: 0;
+     transition: background 0.8s ease;
+     background: rgba(10, 25, 41, 0.55);   /* default Downpour dim */
+   }
+   body > * { position: relative; z-index: 1; }
+   
+   /* Mood tints use palette colors */
+   .mood-ecstatic::before  { background: rgba(61, 92, 40, 0.40) !important; }  /* toxic green haze */
+   .mood-content::before   { background: rgba(10, 25, 41, 0.55) !important; }  /* deep Downpour */
+   .mood-grumpy::before    { background: rgba(138, 31, 48, 0.35) !important; } /* faded crimson */
+   .mood-miserable::before { background: rgba(200, 55, 77, 0.50) !important; } /* full nebula red */
+   
+   header {
+     border-bottom: 1px solid rgba(201, 117, 69, 0.35);
+     padding-bottom: 10px;
+     margin-bottom: 20px;
+     text-align: center;
+   }
+   
+   h1 {
+     font-weight: bold;
+     color: #c97545;
+     letter-spacing: 2px;
+     margin: 0 0 4px 0;
+     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+   }
+   
+   .subtitle {
+     color: #8a96a5;
+     font-style: italic;
+     margin: 0;
+   }
+   
+   main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 60px;
+   }
+   
+   /* Friend Container & Speech Bubble */
+   .Friend-image-container {
+     position: relative;
+     width: 400px;
+     height: 320px;
+     padding: 0;
+     flex-shrink: 0;
+     display: flex;
+     align-items: flex-end;
+     justify-content: center;
+     margin-bottom: -20px;
+   }
+   
+   .speech-bubble {
+     position: absolute;
+     top: -40px;
+     right: 10px;
+     background: #e8dfd0;
+     color: #0a1929;
+     padding: 10px 14px;
+     border-radius: 14px;
+     max-width: 220px;
+     font-size: 14px;
+     font-weight: bold;
+     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55), 0 0 20px rgba(200, 55, 77, 0.15);
+     z-index: 10;
+   }
+   /* Little tail pointing at Rocky */
+   .speech-bubble::after {
+     content: '';
+     position: absolute;
+     bottom: -10px;
+     left: 30px;
+     border: 10px solid transparent;
+     border-top-color: #e8dfd0;
+     border-bottom: 0;
+   }
+   
+   /*  ROCKY (IMAGE)  */
+   .rocky {
+     position: relative;
+     width: 400px;
+     height: 400px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+   
+   .Friend-image {
+     width: 100%;
+     height: 100%;
+     object-fit: contain;
+     display: block;
+     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+   }
+   
+   /* Floating musical notes */
+   .note {
+     position: absolute;
+     font-size: 28px;
+     color: #c8374d;
+     opacity: 0;
+     top: 30px;
+     pointer-events: none;
+     text-shadow: 0 0 10px rgba(200, 55, 77, 0.9);
+     z-index: 5;
+   }
+   .note-1 { left: 40px; }
+   .note-2 { left: 170px; }
+   .note-3 { left: 300px; }
+   
+   .note-fly {
+     animation: noteFly 1.2s ease-out forwards;
+   }
+   /* Note: per-element animation-delay is now set dynamically in JS
+      via the .each() iteration in animateRocky(). */
+   
+   @keyframes noteFly {
+     0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+     20%  { opacity: 1; }
+     100% { opacity: 0; transform: translateY(-120px) scale(1.2) rotate(20deg); }
+   }
+   
+   /* ANIMATIONS */
+   .rocky.idle { animation: idleWobble 3s ease-in-out infinite; }
+   @keyframes idleWobble {
+     0%, 100% { transform: translateY(0) rotate(0deg); }
+     50%      { transform: translateY(-4px) rotate(1deg); }
+   }
+   
+   .rocky.anim-bounce { animation: bounceAnim 0.6s ease; }
+   @keyframes bounceAnim {
+     0%, 100% { transform: translateY(0); }
+     30%      { transform: translateY(-40px); }
+     60%      { transform: translateY(-10px); }
+   }
+   
+   .rocky.anim-wiggle { animation: wiggleAnim 0.7s ease; }
+   @keyframes wiggleAnim {
+     0%, 100% { transform: rotate(0deg); }
+     25%      { transform: rotate(-8deg); }
+     75%      { transform: rotate(8deg); }
+   }
+   
+   .rocky.anim-shake { animation: shakeAnim 0.5s linear; }
+   @keyframes shakeAnim {
+     0%, 100% { transform: translateX(0); }
+     20%      { transform: translateX(-8px); }
+     40%      { transform: translateX(8px); }
+     60%      { transform: translateX(-6px); }
+     80%      { transform: translateX(6px); }
+   }
+   
+   .rocky.anim-spin { animation: spinAnim 0.9s ease; }
+   @keyframes spinAnim {
+     0%   { transform: rotate(0deg)   scale(1); }
+     50%  { transform: rotate(180deg) scale(1.1); }
+     100% { transform: rotate(360deg) scale(1); }
+   }
+   
+   /* ---------------- DASHBOARD ---------------- */
+   .dashboard {
+     padding: 20px;
+     background: rgba(10, 25, 41, 0.75);
+     border: 1px solid rgba(197, 204, 212, 0.15);
+     border-radius: 8px;
+     width: 100%;
+     max-width: 500px;
+     backdrop-filter: blur(6px);
+     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+   }
+   
+   .dashboard div {
+     display: block;
+     margin-bottom: 8px;
+     font-size: 15px;
+     color: #c5ccd4;
+   }
+   
+   .mood-indicator {
+     font-size: 17px !important;
+     color: #c97545 !important;
+     padding-bottom: 8px;
+     margin-bottom: 12px !important;
+     border-bottom: 1px solid rgba(201, 117, 69, 0.35);
+     text-transform: capitalize;
+     text-shadow: 0 0 8px rgba(200, 55, 77, 0.3);
+   }
+   
+   .button-container {
+     margin-top: 20px;
+     display: flex;
+     gap: 10px;
+     flex-wrap: wrap;
+   }
+   
+   .button-container button {
+     flex: 1;
+     min-width: 90px;
+     padding: 10px;
+     text-align: center;
+     font-size: 15px;
+     font-family: inherit;
+     background-color: #1a2b42;
+     border: 1px solid #2e4566;
+     cursor: pointer;
+     color: #e8dfd0;
+     border-radius: 6px;
+     background-image: linear-gradient(to bottom,
+       rgba(232, 223, 208, 0.08) 0%,
+       rgba(26, 43, 66, 0) 66%);
+     transition: transform 0.12s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+   }
+   
+   .button-container button:hover {
+     background-color: #2a3d5a;
+     border-color: #c8374d;
+     box-shadow: 0 0 14px rgba(200, 55, 77, 0.4);
+   }
+   
+   .button-container button:active {
+     transform: translateY(2px);
+   }
+   
+   /* Science! button — toxic green Eridian accent */
+   .science-button {
+     background-color: #3d5c28 !important;
+     border-color: #7fa85a !important;
+     color: #e8dfd0 !important;
+   }
+   .science-button:hover {
+     background-color: #4f7434 !important;
+     border-color: #a8cc7a !important;
+     box-shadow: 0 0 16px rgba(127, 168, 90, 0.6) !important;
+   }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rocky the Eridian - Space Friend</title>
+    <meta name="description" content="A Giga Friend game featuring Rocky from Project Hail Mary">
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <h1>
+        Rocky: Your Eridian Partner
+      </h1>
+      <p class="subtitle">Friend from Planet Erid &mdash; keep him happy, question?</p>
+    </header>
+
+    <main>
+      <section class="Friend-image-container">
+        <!-- Speech bubble where Rocky's comments appear after each action -->
+        <div class="speech-bubble" aria-live="polite">
+          <span class="speech-text">Good, good! Friend, you here!</span>
+        </div>
+
+        <!-- Rocky image (generated via Gemini, stored in images/ folder) -->
+        <div class="rocky" aria-label="Rocky the Eridian">
+          <img class="Friend-image" src="images/Rocky.png" alt="Rocky the Eridian">
+          <!-- Musical notes that float up when Rocky "speaks" -->
+          <div class="note note-1">&#9835;</div>
+          <div class="note note-2">&#9833;</div>
+          <div class="note note-3">&#9839;</div>
+        </div>
+      </section>
+
+      <section class="dashboard">
+        <div class="mood-indicator">Mood: <strong><span class="mood">content</span></strong></div>
+        <div>Name: <strong><span class="name"></span></strong></div>
+        <div>Weight: <strong><span class="weight"></span> kg</strong></div>
+        <div>Happiness: <strong><span class="happiness"></span> musical notes (per min)</strong></div>
+        <!-- New stat tied to the new action button: Rocky's trust in you -->
+        <div>Trust: <strong><span class="trust"></span> / 100</strong></div>
+
+        <div class="button-container">
+          <button class="treat-button" title="Feed Rocky some ammonia-rich food">
+            Feed
+          </button>
+          <button class="play-button" title="Play a tune with Rocky">
+            Play
+          </button>
+          <button class="chat-button" title="Chat with Rocky">
+            Chat
+          </button>
+          <!-- NEW ACTION BUTTON: Science experiments (Rocky's favorite pastime) -->
+          <button class="science-button" title="Do science with fren Grace">
+            Science!
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- jQuery must load before script.js because the script uses $ -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <!-- Tone.js for musical note sound effects (Rocky communicates in music) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
